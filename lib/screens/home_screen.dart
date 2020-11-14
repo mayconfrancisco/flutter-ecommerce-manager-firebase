@@ -1,3 +1,6 @@
+import 'package:bloc_pattern/bloc_pattern.dart';
+import 'package:ecommerce_manager_flutter/blocs/user_bloc.dart';
+import 'package:ecommerce_manager_flutter/screens/tabs/users_tab.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -8,35 +11,40 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   PageController _pageController;
   int _currentPage = 0;
+  UserBloc _userBloc;
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController();
+    _userBloc = UserBloc();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[850],
-      body: PageView(
-        controller: _pageController,
-        onPageChanged: (p) {
-          setState(() {
-            _currentPage = p;
-          });
-        },
-        children: [
-          Container(
-            color: Colors.red,
+      body: SafeArea(
+        child: BlocProvider(
+          bloc: _userBloc,
+          child: PageView(
+            controller: _pageController,
+            onPageChanged: (p) {
+              setState(() {
+                _currentPage = p;
+              });
+            },
+            children: [
+              UsersTab(),
+              Container(
+                color: Colors.green,
+              ),
+              Container(
+                color: Colors.yellow,
+              )
+            ],
           ),
-          Container(
-            color: Colors.green,
-          ),
-          Container(
-            color: Colors.yellow,
-          )
-        ],
+        ),
       ),
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
