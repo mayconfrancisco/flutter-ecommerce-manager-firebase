@@ -1,5 +1,7 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
+import 'package:ecommerce_manager_flutter/blocs/order_bloc.dart';
 import 'package:ecommerce_manager_flutter/blocs/user_bloc.dart';
+import 'package:ecommerce_manager_flutter/screens/tabs/order_tab.dart';
 import 'package:ecommerce_manager_flutter/screens/tabs/users_tab.dart';
 import 'package:flutter/material.dart';
 
@@ -12,12 +14,14 @@ class _HomeScreenState extends State<HomeScreen> {
   PageController _pageController;
   int _currentPage = 0;
   UserBloc _userBloc;
+  OrderBloc _orderBloc;
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController();
     _userBloc = UserBloc();
+    _orderBloc = OrderBloc();
   }
 
   @override
@@ -25,24 +29,25 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Colors.grey[850],
       body: SafeArea(
-        child: BlocProvider(
+        child: BlocProvider<UserBloc>(
           bloc: _userBloc,
-          child: PageView(
-            controller: _pageController,
-            onPageChanged: (p) {
-              setState(() {
-                _currentPage = p;
-              });
-            },
-            children: [
-              UsersTab(),
-              Container(
-                color: Colors.green,
-              ),
-              Container(
-                color: Colors.yellow,
-              )
-            ],
+          child: BlocProvider<OrderBloc>(
+            bloc: _orderBloc,
+            child: PageView(
+              controller: _pageController,
+              onPageChanged: (p) {
+                setState(() {
+                  _currentPage = p;
+                });
+              },
+              children: [
+                UsersTab(),
+                OrderTab(),
+                Container(
+                  color: Colors.yellow,
+                )
+              ],
+            ),
           ),
         ),
       ),
