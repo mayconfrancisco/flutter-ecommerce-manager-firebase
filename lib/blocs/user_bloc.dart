@@ -14,6 +14,24 @@ class UserBloc extends BlocBase {
     _addUsersListener();
   }
 
+  onChangedSearch(String search) {
+    if (search.trim().isEmpty) {
+      _userController.add(_users.values.toList());
+    } else {
+      _userController.add(filter(search.trim()));
+    }
+  }
+
+  List<Map<String, dynamic>> filter(String search) {
+    List<Map<String, dynamic>> filteredUsers =
+        List.from(_users.values.toList());
+
+    filteredUsers.retainWhere(
+        (user) => user['name'].toUpperCase().contains(search.toUpperCase()));
+
+    return filteredUsers;
+  }
+
   _addUsersListener() {
     _firestore.collection('users').snapshots().listen((snapshot) {
       snapshot.documentChanges.forEach((change) {
