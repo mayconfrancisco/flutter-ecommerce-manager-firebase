@@ -4,6 +4,7 @@ import 'package:ecommerce_manager_flutter/blocs/user_bloc.dart';
 import 'package:ecommerce_manager_flutter/screens/tabs/order_tab.dart';
 import 'package:ecommerce_manager_flutter/screens/tabs/users_tab.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -74,7 +75,49 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
+      floatingActionButton: _buildFloatingActionButton(),
     );
+  }
+
+  Widget _buildFloatingActionButton() {
+    switch (_currentPage) {
+      case 0:
+        return null;
+      case 1:
+        return SpeedDial(
+          child: Icon(Icons.sort),
+          backgroundColor: Colors.pinkAccent,
+          overlayOpacity: 0.4,
+          overlayColor: Colors.black,
+          children: [
+            SpeedDialChild(
+              child: Icon(
+                Icons.arrow_downward,
+                color: Colors.pinkAccent,
+              ),
+              backgroundColor: Colors.white,
+              label: 'Concluídos abaixo',
+              labelStyle: TextStyle(fontSize: 14),
+              onTap: () {
+                _orderBloc.setSortCriteria(SortCriteria.READY_LAST);
+              },
+            ),
+            SpeedDialChild(
+                child: Icon(
+                  Icons.arrow_upward,
+                  color: Colors.pinkAccent,
+                ),
+                backgroundColor: Colors.white,
+                label: 'Concluídos acima',
+                labelStyle: TextStyle(fontSize: 14),
+                onTap: () {
+                  _orderBloc.setSortCriteria(SortCriteria.READY_FIRST);
+                }),
+          ],
+        );
+      default:
+        return null;
+    }
   }
 
   @override
