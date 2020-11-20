@@ -2,6 +2,7 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:ecommerce_manager_flutter/blocs/order_bloc.dart';
 import 'package:ecommerce_manager_flutter/blocs/user_bloc.dart';
 import 'package:ecommerce_manager_flutter/screens/tabs/order_tab.dart';
+import 'package:ecommerce_manager_flutter/screens/tabs/products_tab.dart';
 import 'package:ecommerce_manager_flutter/screens/tabs/users_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -44,9 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 UsersTab(),
                 OrderTab(),
-                Container(
-                  color: Colors.yellow,
-                )
+                ProductsTab(),
               ],
             ),
           ),
