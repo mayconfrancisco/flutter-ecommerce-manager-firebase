@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce_manager_flutter/blocs/product_bloc.dart';
 import 'package:ecommerce_manager_flutter/screens/widgets/images_widget.dart';
+import 'package:ecommerce_manager_flutter/screens/widgets/product_sizes.dart';
 import 'package:ecommerce_manager_flutter/validators/product_validator.dart';
 import 'package:flutter/material.dart';
 
@@ -104,7 +105,7 @@ class _ProductScreenState extends State<ProductScreen> with ProductValidator {
                   return ListView(
                     padding: EdgeInsets.all(16),
                     children: [
-                      Text(
+                      const Text(
                         'Imagens',
                         style: TextStyle(color: Colors.grey, fontSize: 12),
                       ),
@@ -139,6 +140,19 @@ class _ProductScreenState extends State<ProductScreen> with ProductValidator {
                         onSaved: _productBloc.savePrice,
                         validator: validatePrice,
                       ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      const Text(
+                        'Tamanhos',
+                        style: TextStyle(color: Colors.grey, fontSize: 12),
+                      ),
+                      ProductSizes(context, productSnapshot.data['sizes'],
+                          _productBloc.saveSizes, (sizes) {
+                        if (sizes.isEmpty)
+                          return 'Adicione ao menos um tamanho';
+                        return null;
+                      }),
                     ],
                   );
                 }),
